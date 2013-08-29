@@ -9,16 +9,14 @@ module.exports = function(config) {
 
 
     // frameworks to use
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'commonjs'],
 
 
     // list of files / patterns to load in the browser
     files: [
 	    'node_modules/expect.js/expect.js',
 	  	'src/vendor/*.js',
-
-	  	// CommonJS example
-	  	'generated/commonjs/_bundle_test.js',
+	    'src/commonjs/*.js'
     ],
 
 
@@ -27,6 +25,10 @@ module.exports = function(config) {
       
     ],
 
+
+	  preprocessors: {
+		  'src/commonjs/*.js': ['commonjs']
+	  },
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
