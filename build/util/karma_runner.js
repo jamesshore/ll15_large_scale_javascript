@@ -4,10 +4,12 @@
 
 	var KARMA = "node node_modules/karma/bin/karma";
 	var KARMA_START = KARMA + " start build/config/karma.conf.js";
-	var CONFIG = {};
 
+	var path = require("path");
 	var sh = require("./sh.js");
-	var runner = require("karma/lib/runner");
+	var runner = require("karma").runner;
+
+	var CONFIG = { configFile: path.resolve("build/config/karma.conf.js") };
 
 	exports.serve = function(success, fail) {
 		sh.run(KARMA_START, success, function() {
