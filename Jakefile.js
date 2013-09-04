@@ -52,7 +52,7 @@
 	task("build", ["commonjs"]);
 
 	desc("Build CommonJS example");
-	task("commonjs", ["commonjs_prod", "commonjs_test", "vendor"]);
+	task("commonjs", ["commonjs_prod", "vendor"]);
 
 	task("commonjs_dir", [COMMONJS_BUILD_DIR], function() {
 		shell.rm("-rf", COMMONJS_BUILD_DIR + "/*");
@@ -65,15 +65,6 @@
 		b.bundle({ debug: true }, function(err, bundle) {
 			if (err) fail(err);
 			fs.writeFileSync(COMMONJS_BUILD_DIR + "/bundle.js", bundle);
-			complete();
-		});
-	}, {async: true});
-
-	task("commonjs_test", ["commonjs_dir"], function() {
-		var b = browserify("./src/commonjs/_drawing_area_test.js");
-		b.bundle({ debug: true }, function(err, bundle) {
-			if (err) fail(err);
-			fs.writeFileSync(COMMONJS_BUILD_DIR + "/_bundle_test.js", bundle);
 			complete();
 		});
 	}, {async: true});
