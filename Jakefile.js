@@ -48,18 +48,10 @@
 		karma.runTests(TESTED_BROWSERS, complete, fail);
 	}, {async: true});
 
-	desc("Build all examples");
-	task("build", ["commonjs"]);
+	desc("Build CommonJS");
+	task("build", ["browserify", "vendor"]);
 
-	desc("Build CommonJS example");
-	task("commonjs", ["commonjs_prod", "vendor"]);
-
-	task("commonjs_dir", [COMMONJS_BUILD_DIR], function() {
-		shell.rm("-rf", COMMONJS_BUILD_DIR + "/*");
-		shell.cp("-R", "src/commonjs/*.html", COMMONJS_BUILD_DIR);
-	});
-
-	task("commonjs_prod", ["commonjs_dir"], function() {
+	task("browserify", ["commonjs_dir"], function() {
 		var b = browserify();
 		b.require("./src/commonjs/drawing_area.js", {expose: "./drawing_area"} );
 		b.bundle({ debug: true }, function(err, bundle) {
@@ -68,6 +60,11 @@
 			complete();
 		});
 	}, {async: true});
+
+	task("commonjs_dir", [COMMONJS_BUILD_DIR], function() {
+		shell.rm("-rf", COMMONJS_BUILD_DIR + "/*");
+		shell.cp("-R", "src/commonjs/*.html", COMMONJS_BUILD_DIR);
+	});
 
 	desc("Build vendor files");
 	task("vendor", [VENDOR_BUILD_DIR], function() {
@@ -82,29 +79,24 @@
 		return files.toArray();
 	}
 
-	function globalLintOptions() {
-		return {
-			bitwise:true,
-			curly:false,
-			eqeqeq:true,
-			forin:true,
-			immed:true,
-			latedef:false,
-			newcap:true,
-			noarg:true,
-			noempty:true,
-			nonew:true,
-			regexp:true,
-			undef:true,
-			strict:true,
-			trailing:true
-		};
-	}
-
 	function browserLintOptions() {
-		var options = globalLintOptions();
-		options.browser = true;
-		return options;
+		return {
+			bitwise: true,
+			curly: false,
+			eqeqeq: true,
+			forin: true,
+			immed: true,
+			latedef: false,
+			newcap: true,
+			noarg: true,
+			noempty: true,
+			nonew: true,
+			regexp: true,
+			undef: true,
+			strict: true,
+			trailing: true,
+			browser: true
+		};
 	}
 
 	function browserGlobals() {
