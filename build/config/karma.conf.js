@@ -26,6 +26,7 @@ module.exports = function(config) {
     ],
 
 
+	  // preprocessors to use
 	  preprocessors: {
 		  'src/commonjs/*.js': ['commonjs']
 	  },
